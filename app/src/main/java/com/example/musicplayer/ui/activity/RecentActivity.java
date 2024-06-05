@@ -1,18 +1,23 @@
 package com.example.musicplayer.ui.activity;
 
 import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.musicplayer.R;
 
 /**
- * 首页
+ * 最近播放
  */
-public class MainActivity extends AppCompatActivity {
+public class RecentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_recent);
     }
 }
