@@ -76,4 +76,24 @@ public class FavoriteMusicRepositoryTest {
         assertEquals("Album 2", retrievedMusic2.getAlbum());
         assertEquals("/path/2", retrievedMusic2.getPath());
     }
+
+    @Test
+    public void testCancelFavoriteMusic() {
+        Music music = new Music(0, "Test Title", "Test Artist", "Test Album", "/test/path");
+        repository.insertFavoriteMusic(music);
+
+        List<Music> favoriteMusics = repository.getAllFavoriteMusic();
+        assertNotNull(favoriteMusics);
+        assertEquals(1, favoriteMusics.size());
+
+        Music retrievedMusic = favoriteMusics.get(0);
+        assertEquals("Test Title", retrievedMusic.getTitle());
+        assertEquals("Test Artist", retrievedMusic.getArtist());
+        assertEquals("Test Album", retrievedMusic.getAlbum());
+        assertEquals("/test/path", retrievedMusic.getPath());
+
+        repository.cancelFavoriteMusic(retrievedMusic);
+        favoriteMusics = repository.getAllFavoriteMusic();
+        assertEquals(0, favoriteMusics.size());
+    }
 }

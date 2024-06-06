@@ -18,6 +18,13 @@ public class Music {
         this.path = path;
     }
 
+    public Music(String title, String artist, String album, String path) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.path = path;
+    }
+
     public int getId() {
         return id;
     }

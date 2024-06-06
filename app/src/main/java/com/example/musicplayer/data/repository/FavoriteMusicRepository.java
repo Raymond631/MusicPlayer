@@ -81,4 +81,12 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
         db.close();
         return favoriteMusicList;
     }
+
+    public void cancelFavoriteMusic(Music favoriteMusic) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteQuery = "DELETE FROM " + TABLE_FAVORITE_MUSIC
+                + " WHERE " + COLUMN_ID + " = " + favoriteMusic.getId();
+        db.execSQL(deleteQuery);
+        db.close();
+    }
 }
