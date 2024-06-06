@@ -1,16 +1,16 @@
 package com.example.musicplayer.data.model;
 
-public class RecentMusic {
+public class Music {
     private int id;
     private String title;
     private String artist;
     private String album;
     private String path;
 
-    public RecentMusic() {
+    public Music() {
     }
 
-    public RecentMusic(int id, String title, String artist, String album, String path) {
+    public Music(int id, String title, String artist, String album, String path) {
         this.id = id;
         this.title = title;
         this.artist = artist;
@@ -18,7 +18,6 @@ public class RecentMusic {
         this.path = path;
     }
 
-    // setter and getter
     public int getId() {
         return id;
     }

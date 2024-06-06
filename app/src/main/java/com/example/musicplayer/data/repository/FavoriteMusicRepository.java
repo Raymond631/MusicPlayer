@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.musicplayer.data.model.FavoriteMusic;
+import com.example.musicplayer.data.model.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private static final String TABLE_FAVORITE_MUSIC = "favorite_music";
-    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_ID = "id";  // 自增主键
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_ARTIST = "artist";
     private static final String COLUMN_ALBUM = "album";
@@ -45,7 +45,7 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertFavoriteMusic(FavoriteMusic favoriteMusic) {
+    public void insertFavoriteMusic(Music favoriteMusic) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, favoriteMusic.getTitle());
@@ -57,8 +57,8 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<FavoriteMusic> getAllFavoriteMusic() {
-        List<FavoriteMusic> favoriteMusicList = new ArrayList<>();
+    public List<Music> getAllFavoriteMusic() {
+        List<Music> favoriteMusicList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_FAVORITE_MUSIC;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -66,7 +66,7 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") FavoriteMusic favoriteMusic = new FavoriteMusic(
+                @SuppressLint("Range") Music favoriteMusic = new Music(
                         cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST)),

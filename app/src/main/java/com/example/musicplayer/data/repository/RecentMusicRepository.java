@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.musicplayer.data.model.RecentMusic;
+import com.example.musicplayer.data.model.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,8 @@ import java.util.List;
 public class RecentMusicRepository extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
+
+    private static final int MAX_LINE = 100;
 
     private static final String TABLE_RECENT_MUSIC = "recent_music";
     private static final String COLUMN_ID = "id";
@@ -45,8 +47,22 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertRecentMusic(RecentMusic recentMusic) {
+    public void insertRecentMusic(Music recentMusic) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // 检查表的行数
+        String countQuery = "SELECT COUNT(*) FROM " + TABLE_RECENT_MUSIC;
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.moveToFirst();
+        int rowCount = cursor.getInt(0);
+        cursor.close();
+        // 如果行数达到限界值，删除最早插入的记录
+        if (rowCount >= MAX_LINE) {
+            String deleteQuery = "DELETE FROM " + TABLE_RECENT_MUSIC +
+                    " WHERE " + COLUMN_ID + " = (SELECT MIN(" + COLUMN_ID + ") FROM " + TABLE_RECENT_MUSIC + ")";
+            db.execSQL(deleteQuery);
+        }
+
         ContentValues values = new ContentValues();
         values.put(COLUMN_TITLE, recentMusic.getTitle());
         values.put(COLUMN_ARTIST, recentMusic.getArtist());
@@ -57,8 +73,8 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<RecentMusic> getAllRecentMusic() {
-        List<RecentMusic> recentMusicList = new ArrayList<>();
+    public List<Music> getAllRecentMusic() {
+        List<Music> recentMusicList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_RECENT_MUSIC;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -66,7 +82,7 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") RecentMusic recentMusic = new RecentMusic(
+                @SuppressLint("Range") Music recentMusic = new Music(
                         cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST)),
