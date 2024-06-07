@@ -19,15 +19,6 @@ public class MusicService extends Service {
         Log.d(TAG, "Service Created");
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        String musicPath = intent.getStringExtra("MUSIC_PATH");
-        if (musicPath != null) {
-            playMusic(musicPath);
-        }
-        return START_NOT_STICKY;
-    }
-
     private void playMusic(String path) {
         if (mediaPlayer != null) {
             mediaPlayer.release();
