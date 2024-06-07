@@ -38,7 +38,7 @@ public class FavoriteMusicRepositoryTest {
 
     @Test
     public void testInsertFavoriteMusic() {
-        Music music = new Music(0, "Test Title", "Test Artist", "Test Album", "/test/path");
+        Music music = new Music("Test Title", "Test Artist", "Test Album", "/test/path");
         repository.insertFavoriteMusic(music);
 
         List<Music> favoriteMusics = repository.getAllFavoriteMusic();
@@ -54,8 +54,8 @@ public class FavoriteMusicRepositoryTest {
 
     @Test
     public void testGetAllFavoriteMusic() {
-        Music music1 = new Music(0, "Title 1", "Artist 1", "Album 1", "/path/1");
-        Music music2 = new Music(0, "Title 2", "Artist 2", "Album 2", "/path/2");
+        Music music1 = new Music("Title 1", "Artist 1", "Album 1", "/path/1");
+        Music music2 = new Music("Title 2", "Artist 2", "Album 2", "/path/2");
 
         repository.insertFavoriteMusic(music1);
         repository.insertFavoriteMusic(music2);
@@ -79,7 +79,7 @@ public class FavoriteMusicRepositoryTest {
 
     @Test
     public void testCancelFavoriteMusic() {
-        Music music = new Music(0, "Test Title", "Test Artist", "Test Album", "/test/path");
+        Music music = new Music("Test Title", "Test Artist", "Test Album", "/test/path");
         repository.insertFavoriteMusic(music);
 
         List<Music> favoriteMusics = repository.getAllFavoriteMusic();

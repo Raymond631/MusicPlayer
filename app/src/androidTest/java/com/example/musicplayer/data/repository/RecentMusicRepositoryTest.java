@@ -38,7 +38,7 @@ public class RecentMusicRepositoryTest {
 
     @Test
     public void testInsertRecentMusic() {
-        Music music = new Music(0, "Test Title", "Test Artist", "Test Album", "/test/path");
+        Music music = new Music("Test Title", "Test Artist", "Test Album", "/test/path");
         repository.insertRecentMusic(music);
 
         List<Music> recentMusics = repository.getAllRecentMusic();
@@ -54,8 +54,8 @@ public class RecentMusicRepositoryTest {
 
     @Test
     public void testGetAllRecentMusic() {
-        Music music1 = new Music(0, "Title 1", "Artist 1", "Album 1", "/path/1");
-        Music music2 = new Music(0, "Title 2", "Artist 2", "Album 2", "/path/2");
+        Music music1 = new Music("Title 1", "Artist 1", "Album 1", "/path/1");
+        Music music2 = new Music("Title 2", "Artist 2", "Album 2", "/path/2");
 
         repository.insertRecentMusic(music1);
         repository.insertRecentMusic(music2);
