@@ -19,11 +19,13 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
     private static final int MAX_LINE = 100;
 
     private static final String TABLE_RECENT_MUSIC = "recent_music";
-    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_ID = "id";  // 自增主键
+    private static final String COLUMN_MUSIC_ID = "music_id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_ARTIST = "artist";
     private static final String COLUMN_ALBUM = "album";
-    private static final String COLUMN_PATH = "path";
+    private static final String COLUMN_DATA = "data";
+    private static final String COLUMN_DURATION = "duration";
 
     public RecentMusicRepository(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -34,10 +36,13 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_RECENT_MUSIC_TABLE = "CREATE TABLE " + TABLE_RECENT_MUSIC + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_MUSIC_ID + " INTEGER,"
                 + COLUMN_TITLE + " TEXT,"
                 + COLUMN_ARTIST + " TEXT,"
                 + COLUMN_ALBUM + " TEXT,"
-                + COLUMN_PATH + " TEXT" + ")";
+                + COLUMN_DATA + " TEXT,"
+                + COLUMN_DURATION + " INTEGER"
+                + ")";
         db.execSQL(CREATE_RECENT_MUSIC_TABLE);
     }
 
@@ -47,7 +52,7 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertRecentMusic(Music recentMusic) {
+    public void insertRecentMusic(Music music) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // 检查表的行数
@@ -64,10 +69,12 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
         }
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_TITLE, recentMusic.getTitle());
-        values.put(COLUMN_ARTIST, recentMusic.getArtist());
-        values.put(COLUMN_ALBUM, recentMusic.getAlbum());
-        values.put(COLUMN_PATH, recentMusic.getPath());
+        values.put(COLUMN_ID, music.getId());
+        values.put(COLUMN_TITLE, music.getTitle());
+        values.put(COLUMN_ARTIST, music.getArtist());
+        values.put(COLUMN_ALBUM, music.getAlbum());
+        values.put(COLUMN_DATA, music.getData());
+        values.put(COLUMN_DURATION, music.getDuration());
 
         db.insert(TABLE_RECENT_MUSIC, null, values);
         db.close();
@@ -83,11 +90,12 @@ public class RecentMusicRepository extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 @SuppressLint("Range") Music recentMusic = new Music(
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ALBUM)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_PATH))
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_DURATION)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DATA))
                 );
                 recentMusicList.add(recentMusic);
             } while (cursor.moveToNext());

@@ -1,35 +1,30 @@
 package com.example.musicplayer.data.model;
 
 public class Music {
-    private int id;
+    private long id;
     private String title;
     private String artist;
     private String album;
-    private String path;
+    private long duration;
+    private String data; // 文件路径
 
     public Music() {
     }
 
-    public Music(int id, String title, String artist, String album, String path) {
+    public Music(long id, String title, String artist, String album, long duration, String data) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
-        this.path = path;
+        this.duration = duration;
+        this.data = data;
     }
 
-    public Music(String title, String artist, String album, String path) {
-        this.title = title;
-        this.artist = artist;
-        this.album = album;
-        this.path = path;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,11 +52,19 @@ public class Music {
         this.album = album;
     }
 
-    public String getPath() {
-        return path;
+    public long getDuration() {
+        return duration;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

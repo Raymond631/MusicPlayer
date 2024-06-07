@@ -68,61 +68,6 @@ public class MusicListRepositoryTest {
     }
 
     @Test
-    public void testAddMusic() {
-        // 添加歌单
-        MusicList musicList = new MusicList("Test Name");
-        repository.createList(musicList);
-        List<MusicList> musicLists = repository.getMusicLists();
-        assertNotNull(musicLists);
-        assertEquals(1, musicLists.size());
-        MusicList retrievedMusicList = musicLists.get(0);
-        assertEquals("Test Name", retrievedMusicList.getName());
-
-        // 添加歌曲
-        Music music = new Music("Test Title", "Test Artist", "Test Album", "/test/path");
-        repository.addMusic(retrievedMusicList, music);
-
-        List<Music> list = repository.getMusicByList(retrievedMusicList);
-        assertNotNull(list);
-        assertEquals(1, list.size());
-
-        Music retrievedMusic = list.get(0);
-        assertEquals("Test Title", retrievedMusic.getTitle());
-        assertEquals("Test Artist", retrievedMusic.getArtist());
-        assertEquals("Test Album", retrievedMusic.getAlbum());
-        assertEquals("/test/path", retrievedMusic.getPath());
-    }
-
-    @Test
-    public void testDeleteMusic() {
-        // 添加歌单
-        MusicList musicList = new MusicList("Test Name");
-        repository.createList(musicList);
-        List<MusicList> musicLists = repository.getMusicLists();
-        assertNotNull(musicLists);
-        assertEquals(1, musicLists.size());
-        MusicList retrievedMusicList = musicLists.get(0);
-        assertEquals("Test Name", retrievedMusicList.getName());
-
-        // 添加歌曲
-        Music music = new Music("Test Title", "Test Artist", "Test Album", "/test/path");
-        repository.addMusic(retrievedMusicList, music);
-        List<Music> list = repository.getMusicByList(retrievedMusicList);
-        assertNotNull(list);
-        assertEquals(1, list.size());
-        Music retrievedMusic = list.get(0);
-        assertEquals("Test Title", retrievedMusic.getTitle());
-        assertEquals("Test Artist", retrievedMusic.getArtist());
-        assertEquals("Test Album", retrievedMusic.getAlbum());
-        assertEquals("/test/path", retrievedMusic.getPath());
-
-        // 删除歌曲
-        repository.deleteMusic(retrievedMusicList, retrievedMusic);
-        list = repository.getMusicByList(retrievedMusicList);
-        assertEquals(0, list.size());
-    }
-
-    @Test
     public void testGetMusicLists() {
         MusicList musicList1 = new MusicList("Test Name 1");
         MusicList musicList2 = new MusicList("Test Name 2");
@@ -141,6 +86,65 @@ public class MusicListRepositoryTest {
     }
 
     @Test
+    public void testAddMusic() {
+        // 添加歌单
+        MusicList musicList = new MusicList("Test Name");
+        repository.createList(musicList);
+        List<MusicList> musicLists = repository.getMusicLists();
+        assertNotNull(musicLists);
+        assertEquals(1, musicLists.size());
+        MusicList retrievedMusicList = musicLists.get(0);
+        assertEquals("Test Name", retrievedMusicList.getName());
+
+        // 添加歌曲
+        Music music = new Music(1L, "Test Title", "Test Artist", "Test Album", 1L, "/test/path");
+        repository.addMusic(retrievedMusicList, music);
+
+        List<Music> list = repository.getMusicByList(retrievedMusicList);
+        assertNotNull(list);
+        assertEquals(1, list.size());
+
+        Music retrievedMusic = list.get(0);
+        assertEquals(1L, retrievedMusic.getId());
+        assertEquals("Test Title", retrievedMusic.getTitle());
+        assertEquals("Test Artist", retrievedMusic.getArtist());
+        assertEquals("Test Album", retrievedMusic.getAlbum());
+        assertEquals(1L, retrievedMusic.getDuration());
+        assertEquals("/test/path", retrievedMusic.getData());
+    }
+
+    @Test
+    public void testDeleteMusic() {
+        // 添加歌单
+        MusicList musicList = new MusicList("Test Name");
+        repository.createList(musicList);
+        List<MusicList> musicLists = repository.getMusicLists();
+        assertNotNull(musicLists);
+        assertEquals(1, musicLists.size());
+        MusicList retrievedMusicList = musicLists.get(0);
+        assertEquals("Test Name", retrievedMusicList.getName());
+
+        // 添加歌曲
+        Music music = new Music(1L, "Test Title", "Test Artist", "Test Album", 1L, "/test/path");
+        repository.addMusic(retrievedMusicList, music);
+        List<Music> list = repository.getMusicByList(retrievedMusicList);
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        Music retrievedMusic = list.get(0);
+        assertEquals(1L, retrievedMusic.getId());
+        assertEquals("Test Title", retrievedMusic.getTitle());
+        assertEquals("Test Artist", retrievedMusic.getArtist());
+        assertEquals("Test Album", retrievedMusic.getAlbum());
+        assertEquals(1L, retrievedMusic.getDuration());
+        assertEquals("/test/path", retrievedMusic.getData());
+
+        // 删除歌曲
+        repository.deleteMusic(retrievedMusicList, retrievedMusic);
+        list = repository.getMusicByList(retrievedMusicList);
+        assertEquals(0, list.size());
+    }
+
+    @Test
     public void testGetMusicByList() {
         // 添加歌单
         MusicList musicList = new MusicList("Test Name");
@@ -152,8 +156,8 @@ public class MusicListRepositoryTest {
         assertEquals("Test Name", retrievedMusicList.getName());
 
         // 添加歌曲
-        Music music1 = new Music("Title 1", "Artist 1", "Album 1", "/path/1");
-        Music music2 = new Music("Title 2", "Artist 2", "Album 2", "/path/2");
+        Music music1 = new Music(1L, "Title 1", "Artist 1", "Album 1", 1L, "/path/1");
+        Music music2 = new Music(2L, "Title 2", "Artist 2", "Album 2", 2L, "/path/2");
         repository.addMusic(retrievedMusicList, music1);
         repository.addMusic(retrievedMusicList, music2);
 
@@ -162,15 +166,19 @@ public class MusicListRepositoryTest {
         assertEquals(2, list.size());
 
         Music retrievedMusic1 = list.get(0);
+        assertEquals(1L, retrievedMusic1.getId());
         assertEquals("Title 1", retrievedMusic1.getTitle());
         assertEquals("Artist 1", retrievedMusic1.getArtist());
         assertEquals("Album 1", retrievedMusic1.getAlbum());
-        assertEquals("/path/1", retrievedMusic1.getPath());
+        assertEquals(1L, retrievedMusic1.getDuration());
+        assertEquals("/path/1", retrievedMusic1.getData());
 
         Music retrievedMusic2 = list.get(1);
+        assertEquals(2L, retrievedMusic2.getId());
         assertEquals("Title 2", retrievedMusic2.getTitle());
         assertEquals("Artist 2", retrievedMusic2.getArtist());
         assertEquals("Album 2", retrievedMusic2.getAlbum());
-        assertEquals("/path/2", retrievedMusic2.getPath());
+        assertEquals(2L, retrievedMusic2.getDuration());
+        assertEquals("/path/2", retrievedMusic2.getData());
     }
 }

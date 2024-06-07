@@ -22,12 +22,13 @@ public class MusicListRepository extends SQLiteOpenHelper {
     private static final String COLUMN_NAME = "name";
 
     private static final String TABLE_MUSIC = "music";  // 子表
-    private static final String COLUMN_MUSIC_ID = "id";
-    private static final String COLUMN_LIST_ID = "list_id";  // 外键
+    private static final String COLUMN_LIST_ID = "list_id";
+    private static final String COLUMN_MUSIC_ID = "music_id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_ARTIST = "artist";
     private static final String COLUMN_ALBUM = "album";
-    private static final String COLUMN_PATH = "path";
+    private static final String COLUMN_DATA = "data";
+    private static final String COLUMN_DURATION = "duration";
 
 
     public MusicListRepository(Context context) {
@@ -43,12 +44,14 @@ public class MusicListRepository extends SQLiteOpenHelper {
                 + ")";
 
         String CREATE_MUSIC_TABLE = "CREATE TABLE " + TABLE_MUSIC + "("
-                + COLUMN_MUSIC_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_LIST_ID + " INTEGER,"
+                + COLUMN_MUSIC_ID + " INTEGER,"
                 + COLUMN_TITLE + " TEXT,"
                 + COLUMN_ARTIST + " TEXT,"
                 + COLUMN_ALBUM + " TEXT,"
-                + COLUMN_PATH + " TEXT"
+                + COLUMN_DATA + " TEXT,"
+                + COLUMN_DURATION + " INTEGER,"
+                + " PRIMARY KEY (" + COLUMN_LIST_ID + ", " + COLUMN_MUSIC_ID + ")"
                 + ")";
         db.execSQL(CREATE_MUSIC_LIST_TABLE);
         db.execSQL(CREATE_MUSIC_TABLE);
@@ -92,8 +95,7 @@ public class MusicListRepository extends SQLiteOpenHelper {
             do {
                 @SuppressLint("Range") MusicList musicList = new MusicList(
                         cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
-                        new ArrayList<>()
+                        cursor.getString(cursor.getColumnIndex(COLUMN_NAME))
                 );
                 allMusicList.add(musicList);
             } while (cursor.moveToNext());
@@ -109,10 +111,12 @@ public class MusicListRepository extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_LIST_ID, musicList.getId());
+        values.put(COLUMN_MUSIC_ID, music.getId());
         values.put(COLUMN_TITLE, music.getTitle());
         values.put(COLUMN_ARTIST, music.getArtist());
         values.put(COLUMN_ALBUM, music.getAlbum());
-        values.put(COLUMN_PATH, music.getPath());
+        values.put(COLUMN_DATA, music.getData());
+        values.put(COLUMN_DURATION, music.getDuration());
 
         db.insert(TABLE_MUSIC, null, values);
         db.close();
@@ -141,11 +145,12 @@ public class MusicListRepository extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 @SuppressLint("Range") Music music = new Music(
-                        cursor.getInt(cursor.getColumnIndex(COLUMN_MUSIC_ID)),
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_MUSIC_ID)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST)),
                         cursor.getString(cursor.getColumnIndex(COLUMN_ALBUM)),
-                        cursor.getString(cursor.getColumnIndex(COLUMN_PATH))
+                        cursor.getLong(cursor.getColumnIndex(COLUMN_DURATION)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_DATA))
                 );
                 list.add(music);
             } while (cursor.moveToNext());
