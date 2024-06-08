@@ -1,16 +1,19 @@
 package com.example.musicplayer.service;
-
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
 
-public class MusicService extends Service {
-    public MusicService() {
-    }
+import com.example.musicplayer.ui.activity.PlayerActivity;
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+import java.util.Timer;
+import java.util.TimerTask;
+//这是一个Service服务类
+public class MusicService {
+
+
 }
