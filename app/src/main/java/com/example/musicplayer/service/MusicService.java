@@ -1,19 +1,68 @@
 package com.example.musicplayer.service;
+
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
+import android.util.Log;
 
-import com.example.musicplayer.ui.activity.PlayerActivity;
+public class MusicService extends Service {
+    private static final String TAG = "MusicService";
+    private final IBinder binder = new MusicBinder();
+    private MediaPlayer mediaPlayer;
 
-import java.util.Timer;
-import java.util.TimerTask;
-//这是一个Service服务类
-public class MusicService {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "Service Created");
+    }
 
+    private void playMusic(String path) {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+        }
+        mediaPlayer = MediaPlayer.create(this, Uri.parse(path));
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        }
+    }
 
+    public void pauseMusic() {
+        if (isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void resumeMusic() {
+        if (isPlaying()) {
+            mediaPlayer.start();
+        }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer != null && mediaPlayer.isPlaying();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        super.onDestroy();
+        Log.d(TAG, "Service Destroyed");
+    }
+
+    public class MusicBinder extends Binder {
+        public MusicService getService() {
+            return MusicService.this;
+        }
+    }
 }

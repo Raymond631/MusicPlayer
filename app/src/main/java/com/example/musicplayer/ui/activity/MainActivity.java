@@ -6,14 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.musicplayer.R;
 
 /**
  * 首页
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BasicActivity {
 
     ImageButton local,recent,like;
     @Override
