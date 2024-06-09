@@ -31,7 +31,7 @@
 
         <!-- 歌单 -->
         <activity
-            android:name=".ui.activity.PlaylistActivity"
+            android:name=".ui.activity.ItemActivity"
             android:exported="false" />
 
         <!-- 本地 -->

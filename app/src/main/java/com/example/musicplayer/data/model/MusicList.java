@@ -1,6 +1,8 @@
 package com.example.musicplayer.data.model;
 
-public class MusicList {
+import java.io.Serializable;
+
+public class MusicList implements Serializable {
     private int id;
     private String name;
 

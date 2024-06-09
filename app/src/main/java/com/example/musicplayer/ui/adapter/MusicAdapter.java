@@ -58,7 +58,7 @@ public class MusicAdapter extends BaseAdapter {
         viewHolder.number.setText(String.valueOf(position + 1));
         viewHolder.title.setText(music.getTitle());
         viewHolder.artist.setText(music.getArtist());
-        viewHolder.duration.setText(music.getArtist());
+        viewHolder.duration.setText(music.getTime());
         if (playingPosition != -1) {
             if (position == playingPosition) {
                 viewHolder.number.setTextColor(context.getColor(R.color.colorAccent));

@@ -1,6 +1,8 @@
 package com.example.musicplayer.data.model;
 
-public class Music {
+import java.io.Serializable;
+
+public class Music implements Serializable {
     private int id;
     private String title; // 歌名
     private String artist; // 歌手

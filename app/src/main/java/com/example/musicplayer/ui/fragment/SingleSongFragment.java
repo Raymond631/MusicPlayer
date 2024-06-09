@@ -32,15 +32,17 @@ public class SingleSongFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_single_song, container, false);
         listView = rootView.findViewById(R.id.lv);
+        // 按照歌名的Unicode值排序
+        musicList.sort((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle()));
         musicAdapter = new MusicAdapter(getContext(), musicList);
         listView.setAdapter(musicAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             if (!musicList.isEmpty()) {
+                App.getService().setMusicList(musicList);
                 App.getService().setPosition(position);
                 startActivity(new Intent(getContext(), PlayerActivity.class));
             }
         });
         return rootView;
     }
-
 }
