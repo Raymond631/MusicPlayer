@@ -20,7 +20,7 @@ import java.util.List;
  * 首页
  */
 public class MainActivity extends AppCompatActivity {
-    private ImageButton local, recent, like;
+    private ImageButton local, recent, like, list;
     private MusicRepository musicRepository = new MusicRepository(this);
 
     @Override
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         local = findViewById(R.id.local);
         recent = findViewById(R.id.recent);
         like = findViewById(R.id.like);
+        list = findViewById(R.id.list);
 
         local.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LocalMusicActivity.class);
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
         like.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
+            startActivity(intent);
+        });
+
+        list.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
             startActivity(intent);
         });
     }

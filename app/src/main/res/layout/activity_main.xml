@@ -28,6 +28,13 @@
             android:layout_height="80dp"
             android:scaleType="fitXY"
             android:src="@drawable/like" />
+
+        <ImageButton
+            android:id="@+id/list"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/local" />
     </LinearLayout>
 
     <LinearLayout

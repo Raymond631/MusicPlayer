@@ -78,7 +78,7 @@ public class MusicListRepository extends MyDatabaseHelper {
     // 查看某个歌单
     public List<Music> getMusicByList(MusicList list) {
         List<Music> musicList = list.getMusicList();
-        String selectQuery = String.format("select * from list_item where list_id = %d order by title", list.getId());
+        String selectQuery = String.format("select * from list_item as l inner join music as m on l.music_id = m.id where list_id = %d order by title", list.getId());
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -19,47 +18,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicPlayer"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.MusicListActivity"
+            android:exported="false" />
         <!-- 首页 -->
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 歌单 -->
+        </activity> <!-- 歌单 -->
         <activity
             android:name=".ui.activity.ItemActivity"
-            android:exported="false" />
-
-        <!-- 本地 -->
+            android:exported="false" /> <!-- 本地 -->
         <activity
             android:name=".ui.activity.LocalMusicActivity"
-            android:exported="false" />
-
-        <!-- 收藏 -->
+            android:exported="false" /> <!-- 收藏 -->
         <activity
             android:name=".ui.activity.FavoritesActivity"
-            android:exported="false" />
-
-        <!-- 最近播放 -->
+            android:exported="false" /> <!-- 最近播放 -->
         <activity
             android:name=".ui.activity.RecentActivity"
-            android:exported="false" />
-
-        <!-- 播放页面 -->
+            android:exported="false" /> <!-- 播放页面 -->
         <activity
             android:name=".ui.activity.PlayerActivity"
             android:exported="false" />
-
 
         <service
             android:name=".service.MusicService"
             android:enabled="true"
             android:exported="true" />
-
     </application>
 
 </manifest>
