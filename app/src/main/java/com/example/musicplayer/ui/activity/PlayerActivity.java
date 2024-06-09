@@ -28,7 +28,8 @@ public class PlayerActivity extends AppCompatActivity {
     private Handler handler;
     private Runnable runnable;
     private ObjectAnimator rotationAnimator;
-    private TextView start, end, title;
+    private TextView start, end;
+    private TextView id, title, artist, album;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,11 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void init() {
         //获取控件
+        id = findViewById(R.id.id);
         title = findViewById(R.id.title);
+        artist = findViewById(R.id.artist);
+        album = findViewById(R.id.album);
+
         cover = findViewById(R.id.cover);
 
         start = findViewById(R.id.start);
@@ -123,7 +128,10 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void setMusic(Music music) {
         //设置音乐名
+        id.setText(String.valueOf(music.getId()));
         title.setText(music.getTitle());
+        artist.setText(music.getArtist());
+        album.setText(music.getAlbum());
         cover.setImageResource(R.drawable.music);
         //显示音乐进度条时长
         end.setText(music.getTime());
