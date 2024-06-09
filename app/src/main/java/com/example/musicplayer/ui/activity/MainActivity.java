@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.musicplayer.App;
 import com.example.musicplayer.R;
 import com.example.musicplayer.data.model.Music;
 import com.example.musicplayer.data.repository.MusicRepository;
+import com.example.musicplayer.service.MusicService;
 import com.example.musicplayer.utils.ScanMusicUtil;
 
 import java.util.List;
@@ -20,8 +24,11 @@ import java.util.List;
  * 首页
  */
 public class MainActivity extends AppCompatActivity {
-    private ImageButton local, recent, like, list;
     private MusicRepository musicRepository = new MusicRepository(this);
+    private ImageButton local, recent, like, list;
+    private TextView name, singer;
+    private ImageView imageview, pre, play, next;
+    private MusicService musicService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
         like = findViewById(R.id.like);
         list = findViewById(R.id.list);
 
+        imageview = findViewById(R.id.imageview);
+        name = findViewById(R.id.name);
+        singer = findViewById(R.id.singer);
+        pre = findViewById(R.id.imageview_front);
+        play = findViewById(R.id.imageview_play);
+        next = findViewById(R.id.imageview_next);
+
         local.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LocalMusicActivity.class);
             startActivity(intent);
@@ -83,6 +97,44 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
             startActivity(intent);
         });
+
+        imageview.setOnClickListener(v -> {
+            if (App.getService().isPlaying()) {
+                Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+                startActivity(intent);
+            }
+        });
+        //播放
+        play.setOnClickListener(v -> {
+            if (App.getService().isPlaying()) {
+                play.setImageResource(R.mipmap.play);
+            } else {
+                play.setImageResource(R.mipmap.pause);
+            }
+            App.getService().playOrPause();
+        });
+        //上一首
+        pre.setOnClickListener(v -> App.getService().pre());
+        //下一首
+        next.setOnClickListener(v -> App.getService().next());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        musicService = App.getService();
+        if (musicService != null) {
+            Music music = musicService.getNowPlay();
+            if (music != null) {
+                name.setText(music.getTitle());
+                singer.setText(music.getArtist());
+            }
+
+            if (musicService.isPlaying()) {
+                play.setImageResource(R.mipmap.pause);
+            } else {
+                play.setImageResource(R.mipmap.play);
+            }
+        }
+    }
 }

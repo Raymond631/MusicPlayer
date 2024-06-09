@@ -49,6 +49,9 @@ public class PlayerActivity extends AppCompatActivity {
                 App.getService().setData(App.getService().getPosition());
                 App.getService().playOrPause();
                 rotationAnimator.start();
+            } else {
+                setMusic(music);
+                rotationAnimator.start();
             }
         } else {
             MusicService musicService = App.getService();
@@ -161,7 +164,6 @@ public class PlayerActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     //更新进度条

@@ -22,17 +22,6 @@
             android:layout_height="5dp"
             android:background="@drawable/dra" />
 
-        <SeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="67dp"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
-            android:progressDrawable="@drawable/seekbar_progress_bg"
-            android:thumb="@mipmap/seekbar_thumb"
-            android:thumbOffset="6dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
