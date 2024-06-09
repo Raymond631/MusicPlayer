@@ -11,7 +11,7 @@ import com.example.musicplayer.ui.fragment.SingerFragment;
 import com.example.musicplayer.ui.fragment.SingleSongFragment;
 
 public class LocalMusicFragmentAdapter extends FragmentStateAdapter {
-    private static final int NUM_PAGES = 4; // 两个选项卡
+    private static final int NUM_PAGES = 4; // 四个选项卡
 
     public LocalMusicFragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);

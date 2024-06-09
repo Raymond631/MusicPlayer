@@ -1,30 +1,32 @@
 package com.example.musicplayer.data.model;
 
 public class Music {
-    private long id;
-    private String title;
-    private String artist;
-    private String album;
-    private long duration;
+    private int id;
+    private String title; // 歌名
+    private String artist; // 歌手
+    private String album; // 专辑
     private String data; // 文件路径
+    private int duration; // 时长（毫秒）
+    private String time; // 时长字符串（分：秒）
 
     public Music() {
     }
 
-    public Music(long id, String title, String artist, String album, long duration, String data) {
+    public Music(int id, String title, String artist, String album, String data, int duration, String time) {
         this.id = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
-        this.duration = duration;
         this.data = data;
+        this.duration = duration;
+        this.time = time;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -52,19 +54,40 @@ public class Music {
         this.album = album;
     }
 
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
     public String getData() {
         return data;
     }
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Music{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", artist='" + artist + '\'' +
+                ", album='" + album + '\'' +
+                ", data='" + data + '\'' +
+                ", duration=" + duration +
+                ", time='" + time + '\'' +
+                '}';
     }
 }

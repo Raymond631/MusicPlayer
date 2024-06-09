@@ -2,6 +2,7 @@ package com.example.musicplayer.ui.activity;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.musicplayer.R;
@@ -12,13 +13,16 @@ import com.google.android.material.tabs.TabLayoutMediator;
 /**
  * 本地
  */
-public class LocalMusicActivity extends BasicActivity {
+public class LocalMusicActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_local_music);
+        init();
+    }
 
+    private void init() {
         ViewPager2 viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new LocalMusicFragmentAdapter(this));
 
