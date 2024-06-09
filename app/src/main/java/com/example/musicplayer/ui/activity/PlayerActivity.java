@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
 import com.example.musicplayer.data.model.Music;
+import com.example.musicplayer.data.repository.FavoriteMusicRepository;
 import com.example.musicplayer.service.MusicService;
 import com.example.musicplayer.ui.view.CircleImageView;
 import com.example.musicplayer.utils.TimeUtil;
@@ -22,7 +23,7 @@ import com.example.musicplayer.utils.TimeUtil;
  * 播放界面
  */
 public class PlayerActivity extends AppCompatActivity {
-    private ImageView btn_play, btn_prev, btn_next, btn_status;
+    private ImageView btn_play, btn_prev, btn_next, btn_status, btn_love;
     private CircleImageView cover;
     private SeekBar seekBar;
     private Handler handler;
@@ -30,6 +31,7 @@ public class PlayerActivity extends AppCompatActivity {
     private ObjectAnimator rotationAnimator;
     private TextView start, end;
     private TextView id, title, artist, album;
+    private FavoriteMusicRepository favoriteMusicRepository = new FavoriteMusicRepository(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,10 @@ public class PlayerActivity extends AppCompatActivity {
             App.getService().playOrPause();
             rotationAnimator.start();
         }
+
+        if (favoriteMusicRepository.isFavorite(App.getService().getNowPlay())) {
+            btn_love.setImageResource(R.drawable.love_red);
+        }
     }
 
     private void init() {
@@ -78,6 +84,8 @@ public class PlayerActivity extends AppCompatActivity {
         btn_prev = findViewById(R.id.btn_prev);
         btn_next = findViewById(R.id.btn_next);
         btn_status = findViewById(R.id.btn_status);
+        btn_love = findViewById(R.id.btn_love);
+
 
         //动画设置
         rotationAnimator = ObjectAnimator.ofFloat(cover, "rotation", 0f, 360f);
@@ -124,6 +132,17 @@ public class PlayerActivity extends AppCompatActivity {
             } else if (status == 2) {
                 btn_status.setImageResource(R.drawable.ic_play_btn_one);
                 Toast.makeText(PlayerActivity.this, R.string.single_loop, Toast.LENGTH_SHORT).show();
+            }
+        });
+        // 收藏
+        btn_love.setOnClickListener(v -> {
+            Music music = App.getService().getNowPlay();
+            if (favoriteMusicRepository.isFavorite(music)) {
+                favoriteMusicRepository.cancelFavoriteMusic(music);
+                btn_love.setImageResource(R.drawable.love);
+            } else {
+                favoriteMusicRepository.insertFavoriteMusic(music);
+                btn_love.setImageResource(R.drawable.love_red);
             }
         });
     }

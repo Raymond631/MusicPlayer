@@ -27,7 +27,7 @@ public class FavoriteMusicRepository extends MyDatabaseHelper {
 
     public void cancelFavoriteMusic(Music music) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = String.format("delete from favorite where id = %d", music.getId());
+        String sql = String.format("delete from favorite where music_id = %d", music.getId());
         db.execSQL(sql);
         db.close();
     }
@@ -55,5 +55,20 @@ public class FavoriteMusicRepository extends MyDatabaseHelper {
         cursor.close();
         db.close();
         return musicList;
+    }
+
+    public boolean isFavorite(Music music) {
+        boolean result = false;
+        String selectQuery = String.format("select * from favorite as f inner join music as m on f.music_id = m.id where m.id = %d", music.getId());
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            result = true;
+        }
+        cursor.close();
+        db.close();
+        return result;
     }
 }
