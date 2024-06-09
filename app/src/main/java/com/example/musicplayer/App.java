@@ -47,7 +47,6 @@ public class App extends Application {
         super.onCreate();
         MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
         dbHelper.getWritableDatabase();  // Ensure the database is created
-        dbHelper.close();
         bindService(new Intent(this, MusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
     }
 }

@@ -3,47 +3,20 @@ package com.example.musicplayer.data.repository;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.musicplayer.data.database.MyDatabaseHelper;
 import com.example.musicplayer.data.model.Music;
 import com.example.musicplayer.data.model.MusicList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicListRepository extends SQLiteOpenHelper {
+public class MusicListRepository extends MyDatabaseHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
 
-
     public MusicListRepository(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql1 = "CREATE TABLE list (\n" +
-                "  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                "  name TEXT\n" +
-                ")";
-
-        String sql2 = "CREATE TABLE list_item (\n" +
-                "  list_id INTEGER NOT NULL,\n" +
-                "  music_id INTEGER NOT NULL,\n" +
-                "  PRIMARY KEY (list_id, music_id),\n" +
-                "  FOREIGN KEY (list_id) REFERENCES list (id) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
-                "  FOREIGN KEY (music_id) REFERENCES music (id) ON DELETE CASCADE ON UPDATE CASCADE\n" +
-                ")";
-        db.execSQL(sql1);
-        db.execSQL(sql2);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS list");
-        db.execSQL("DROP TABLE IF EXISTS list_item");
-        onCreate(db);
+        super(context);
     }
 
     // 创建歌单

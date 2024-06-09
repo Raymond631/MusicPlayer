@@ -10,14 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.musicplayer.R;
+import com.example.musicplayer.data.model.Music;
+import com.example.musicplayer.data.repository.MusicRepository;
 import com.example.musicplayer.utils.ScanMusicUtil;
+
+import java.util.List;
 
 /**
  * 首页
  */
 public class MainActivity extends AppCompatActivity {
-
-    ImageButton local, recent, like;
+    private ImageButton local, recent, like;
+    private MusicRepository musicRepository = new MusicRepository(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
             }
             //权限给了，就获取音乐
             if (grant) {
-                ScanMusicUtil.getMusic(this);
+                List<Music> musicList = ScanMusicUtil.getMusic(this);
+                musicRepository.addAll(musicList);
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

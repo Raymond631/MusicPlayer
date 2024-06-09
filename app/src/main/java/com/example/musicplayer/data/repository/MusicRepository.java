@@ -3,41 +3,19 @@ package com.example.musicplayer.data.repository;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.musicplayer.data.database.MyDatabaseHelper;
 import com.example.musicplayer.data.model.Music;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicRepository extends SQLiteOpenHelper {
+public class MusicRepository extends MyDatabaseHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
 
     public MusicRepository(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE music (\n" +
-                "  id integer NOT NULL,\n" +
-                "  title text,\n" +
-                "  artist text,\n" +
-                "  album text,\n" +
-                "  data text,\n" +
-                "  duration integer,\n" +
-                "  time text,\n" +
-                "  PRIMARY KEY (id)\n" +
-                ")";
-        db.execSQL(sql);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS music");
-        onCreate(db);
+        super(context);
     }
 
     public List<Music> getAll() {

@@ -21,10 +21,16 @@ public class SingleSongFragment extends Fragment {
     private ListView listView;
     private MusicAdapter musicAdapter;
 
-    private List<Music> musicList = App.getMusicList();
+    private List<Music> musicList;
+    private boolean sorted = false;
 
     public SingleSongFragment() {
-        // Required empty public constructor
+        this.musicList = App.getMusicList();
+    }
+
+    public SingleSongFragment(List<Music> musicList) {
+        this.musicList = musicList;
+        this.sorted = true;
     }
 
     @Override
@@ -33,7 +39,9 @@ public class SingleSongFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_single_song, container, false);
         listView = rootView.findViewById(R.id.lv);
         // 按照歌名的Unicode值排序
-        musicList.sort((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle()));
+        if (!sorted) {
+            musicList.sort((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle()));
+        }
         musicAdapter = new MusicAdapter(getContext(), musicList);
         listView.setAdapter(musicAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {

@@ -3,36 +3,19 @@ package com.example.musicplayer.data.repository;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.musicplayer.data.database.MyDatabaseHelper;
 import com.example.musicplayer.data.model.Music;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoriteMusicRepository extends SQLiteOpenHelper {
+public class FavoriteMusicRepository extends MyDatabaseHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
 
     public FavoriteMusicRepository(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE favorite (\n" +
-                "  music_id INTEGER NOT NULL,\n" +
-                "  PRIMARY KEY (music_id),\n" +
-                "  FOREIGN KEY (music_id) REFERENCES music (id) ON DELETE CASCADE ON UPDATE CASCADE\n" +
-                ")";
-        db.execSQL(sql);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS favorite");
-        onCreate(db);
+        super(context);
     }
 
     public void insertFavoriteMusic(Music music) {
@@ -51,7 +34,7 @@ public class FavoriteMusicRepository extends SQLiteOpenHelper {
 
     public List<Music> getAllFavoriteMusic() {
         List<Music> musicList = new ArrayList<>();
-        String selectQuery = "select * from favorite order by title";
+        String selectQuery = "select * from favorite as f inner join music as m on f.music_id = m.id order by title";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

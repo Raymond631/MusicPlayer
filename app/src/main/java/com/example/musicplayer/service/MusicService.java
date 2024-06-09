@@ -7,6 +7,7 @@ import android.os.Binder;
 import android.os.IBinder;
 
 import com.example.musicplayer.data.model.Music;
+import com.example.musicplayer.data.repository.RecentMusicRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     private int position;
     private Music music;
     private int status = 0;  // 顺序、随机、单曲循环
+
+    private RecentMusicRepository recentMusicRepository = new RecentMusicRepository(this);
 
     private Random random = new Random();
     private OnStatusChangeListener onStatusChangeListener;
@@ -99,6 +102,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
         } else {
+            recentMusicRepository.insertRecentMusic(getNowPlay());
             mediaPlayer.start();
         }
     }

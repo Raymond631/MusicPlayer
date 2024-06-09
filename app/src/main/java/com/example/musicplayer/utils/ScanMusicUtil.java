@@ -13,11 +13,11 @@ import java.util.List;
 
 public class ScanMusicUtil {
     //使用ContentResolver获取音乐
-    public static void getMusic(Context context) {
+    public static List<Music> getMusic(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, MediaStore.Audio.Media.IS_MUSIC);
+        List<Music> musicList = new ArrayList<>();
         if (cursor != null) {
-            List<Music> musicList = new ArrayList<>();
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
@@ -34,5 +34,6 @@ public class ScanMusicUtil {
             App.setMusicList(musicList);
             cursor.close();
         }
+        return musicList;
     }
 }
