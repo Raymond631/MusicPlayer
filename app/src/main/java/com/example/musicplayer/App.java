@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
+import com.example.musicplayer.data.database.MyDatabaseHelper;
 import com.example.musicplayer.data.model.Music;
 import com.example.musicplayer.service.MusicService;
 
@@ -44,6 +45,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MyDatabaseHelper dbHelper = new MyDatabaseHelper(this);
+        dbHelper.getWritableDatabase();  // Ensure the database is created
+        dbHelper.close();
         bindService(new Intent(this, MusicService.class), serviceConnection, Context.BIND_AUTO_CREATE);
     }
 }
