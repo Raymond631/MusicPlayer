@@ -114,9 +114,9 @@ public class MainActivity extends AppCompatActivity {
             if (service.getNowPlay() != null) {
                 service.playOrPause();
                 if (service.isPlaying()) {
-                    play.setImageResource(R.mipmap.play);
-                } else {
                     play.setImageResource(R.mipmap.pause);
+                } else {
+                    play.setImageResource(R.mipmap.play);
                 }
             }
         });
