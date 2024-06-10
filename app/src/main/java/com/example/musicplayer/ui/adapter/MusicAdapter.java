@@ -26,6 +26,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
         this.onItemClickListener = listener;
     }
 
+    public void setMusicList(List<Music> musicList) {
+        this.musicList = musicList;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

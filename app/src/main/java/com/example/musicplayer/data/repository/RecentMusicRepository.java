@@ -15,7 +15,7 @@ public class RecentMusicRepository extends MyDatabaseHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final int MAX_LINE = 50;
+    private static final int MAX_LINE = 10;
 
     public RecentMusicRepository(Context context) {
         super(context);
@@ -50,6 +50,13 @@ public class RecentMusicRepository extends MyDatabaseHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = String.format("insert into recent values (%d,'%s')",
                 music.getId(), new Date());
+        db.execSQL(sql);
+        db.close();
+    }
+
+    public void clearRecentMusic() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "delete from recent";
         db.execSQL(sql);
         db.close();
     }

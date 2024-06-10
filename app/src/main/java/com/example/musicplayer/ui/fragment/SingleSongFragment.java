@@ -34,6 +34,12 @@ public class SingleSongFragment extends Fragment {
         this.sorted = true;
     }
 
+    public void setMusicList(List<Music> musicList) {
+        this.musicList = musicList;
+        musicAdapter.setMusicList(musicList);
+        musicAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
