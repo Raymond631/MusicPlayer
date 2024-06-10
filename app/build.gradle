@@ -41,4 +41,7 @@ dependencies {
     androidTestImplementation libs.core
     androidTestImplementation libs.runner
     androidTestImplementation libs.rules
+
+    implementation libs.androidx.core
+    implementation libs.androidx.media
 }

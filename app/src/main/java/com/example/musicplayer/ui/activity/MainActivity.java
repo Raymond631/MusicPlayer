@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
         // 请求权限（坑）
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // android 13以上
-            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 0);
+            requestPermissions(new String[]{
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.POST_NOTIFICATIONS
+            }, 0);
         } else {
             // android 13以下
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
