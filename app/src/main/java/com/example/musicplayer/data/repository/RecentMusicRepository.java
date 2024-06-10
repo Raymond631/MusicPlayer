@@ -12,9 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 public class RecentMusicRepository extends MyDatabaseHelper {
-    private static final String DATABASE_NAME = "musicplayer.db";
-    private static final int DATABASE_VERSION = 1;
-
     private static final int MAX_LINE = 10;
 
     public RecentMusicRepository(Context context) {

@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MusicRepository extends MyDatabaseHelper {
-    private static final String DATABASE_NAME = "musicplayer.db";
-    private static final int DATABASE_VERSION = 1;
-
     public MusicRepository(Context context) {
         super(context);
     }
