@@ -4,12 +4,12 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private MusicRepository musicRepository = new MusicRepository(this);
-    private ImageButton local, recent, like, list;
+    private CardView local, recent, like, list;
     private TextView name, singer;
     private ImageView imageview, pre, play, next;
     private MusicService musicService;

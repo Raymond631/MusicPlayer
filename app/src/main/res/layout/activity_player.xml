@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/background"
     tools:context=".ui.activity.PlayerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -143,6 +143,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:progressBackgroundTint="@color/white"
             android:thumbTint="#00BBFF" />
 
         <TextView
