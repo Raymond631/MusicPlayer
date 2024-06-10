@@ -24,6 +24,7 @@ public class LocalMusicActivity extends AppCompatActivity {
 
     private void init() {
         ViewPager2 viewPager = findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT);
         viewPager.setAdapter(new LocalMusicFragmentAdapter(this));
 
         // 将TabLayout和ViewPager关联起来，并设置选项卡的文本

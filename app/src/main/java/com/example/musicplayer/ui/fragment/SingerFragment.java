@@ -1,19 +1,18 @@
 package com.example.musicplayer.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
 import com.example.musicplayer.data.model.Item;
 import com.example.musicplayer.data.model.Music;
-import com.example.musicplayer.ui.activity.ItemActivity;
 import com.example.musicplayer.ui.adapter.ItemAdapter;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 
 
 public class SingerFragment extends Fragment {
-    private ListView listView;
+    private RecyclerView recyclerView;
     private ItemAdapter itemAdapter;
 
     private List<Item> itemList = new ArrayList<>();
@@ -37,7 +36,7 @@ public class SingerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_singer, container, false);
-        listView = rootView.findViewById(R.id.lv);
+        recyclerView = rootView.findViewById(R.id.lv);
 
         List<Music> musicList = App.getMusicList();
         Map<String, List<Music>> map = new HashMap<>();
@@ -56,16 +55,10 @@ public class SingerFragment extends Fragment {
                 .map(entry -> new Item(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
 
-        itemAdapter = new ItemAdapter(getContext(), itemList);
-        listView.setAdapter(itemAdapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            if (!itemList.isEmpty()) {
-                Intent intent = new Intent(getContext(), ItemActivity.class);
-                // 传递的对象要implements Serializable
-                intent.putExtra("data", itemList.get(position));
-                startActivity(intent);
-            }
-        });
+        itemAdapter = new ItemAdapter(getContext(), itemList, null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(itemAdapter);
+
         return rootView;
     }
 }
