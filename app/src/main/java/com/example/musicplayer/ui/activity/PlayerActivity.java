@@ -169,7 +169,6 @@ public class PlayerActivity extends AppCompatActivity {
             builder.setTitle("选择歌单");
             builder.setItems(options, (dialog, which) -> {
                 musicListRepository.addMusic(musicLists.get(which), music);
-                dialog.dismiss();
             });
             AlertDialog dialog = builder.create();
             dialog.show();
