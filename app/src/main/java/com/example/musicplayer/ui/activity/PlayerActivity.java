@@ -1,9 +1,11 @@
 package com.example.musicplayer.ui.activity;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,24 +16,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
 import com.example.musicplayer.data.model.Music;
+import com.example.musicplayer.data.model.MusicList;
 import com.example.musicplayer.data.repository.FavoriteMusicRepository;
+import com.example.musicplayer.data.repository.MusicListRepository;
 import com.example.musicplayer.service.MusicService;
 import com.example.musicplayer.ui.view.CircleImageView;
 import com.example.musicplayer.utils.TimeUtil;
+
+import java.util.List;
 
 /**
  * 播放界面
  */
 public class PlayerActivity extends AppCompatActivity {
-    private ImageView btn_play, btn_prev, btn_next, btn_status, btn_love;
-    private CircleImageView cover;
-    private SeekBar seekBar;
     private Handler handler;
     private Runnable runnable;
+    private TextView id, title, artist, album;
+    private CircleImageView cover;
     private ObjectAnimator rotationAnimator;
     private TextView start, end;
-    private TextView id, title, artist, album;
+    private SeekBar seekBar;
+    private ImageView btn_play, btn_prev, btn_next, btn_status, btn_love;
+    private Button addToList;
+
+
     private FavoriteMusicRepository favoriteMusicRepository = new FavoriteMusicRepository(this);
+    private MusicListRepository musicListRepository = new MusicListRepository(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +74,8 @@ public class PlayerActivity extends AppCompatActivity {
 
         if (favoriteMusicRepository.isFavorite(App.getService().getNowPlay())) {
             btn_love.setImageResource(R.drawable.love_red);
+        } else {
+            btn_love.setImageResource(R.drawable.love);
         }
     }
 
@@ -85,6 +97,8 @@ public class PlayerActivity extends AppCompatActivity {
         btn_next = findViewById(R.id.btn_next);
         btn_status = findViewById(R.id.btn_status);
         btn_love = findViewById(R.id.btn_love);
+
+        addToList = findViewById(R.id.addToListButton);
 
 
         //动画设置
@@ -145,6 +159,21 @@ public class PlayerActivity extends AppCompatActivity {
                 btn_love.setImageResource(R.drawable.love_red);
             }
         });
+        // 加入歌单
+        addToList.setOnClickListener(v -> {
+            Music music = App.getService().getNowPlay();
+            List<MusicList> musicLists = musicListRepository.getMusicLists();
+            String[] options = musicLists.stream().map(MusicList::getName).toArray(String[]::new);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("选择歌单");
+            builder.setItems(options, (dialog, which) -> {
+                musicListRepository.addMusic(musicLists.get(which), music);
+                dialog.dismiss();
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
     }
 
 
@@ -157,6 +186,12 @@ public class PlayerActivity extends AppCompatActivity {
         cover.setImageResource(R.drawable.music);
         //显示音乐进度条时长
         end.setText(music.getTime());
+
+        if (favoriteMusicRepository.isFavorite(music)) {
+            btn_love.setImageResource(R.drawable.love);
+        } else {
+            btn_love.setImageResource(R.drawable.love_red);
+        }
 
         //设置进度条总时长
         seekBar.setMax(music.getDuration() / 1000);

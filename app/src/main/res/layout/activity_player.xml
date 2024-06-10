@@ -114,14 +114,6 @@
             </TableRow>
         </TableLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.example.musicplayer.ui.view.CircleImageView
@@ -162,10 +154,11 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/seekBarLayout"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -205,4 +198,16 @@
             android:src="@drawable/love" />
 
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/addToListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/control"
+        android:layout_centerInParent="true"
+        android:paddingVertical="10dp"
+        android:text="加到歌单"
+        android:textSize="24sp" />
+
+
 </RelativeLayout>
