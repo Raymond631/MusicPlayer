@@ -4,79 +4,73 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.R;
 import com.example.musicplayer.data.model.Music;
 
 import java.util.List;
 
-public class MusicAdapter extends BaseAdapter {
-    Context context;
-    List<Music> musicList;
-    int playingPosition = -1;
+public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
+    private Context context;
+    private List<Music> musicList;
 
-    public MusicAdapter(Context context, List<Music> musicList) {
+    private OnItemClickListener onItemClickListener;
+
+    public MusicAdapter(Context context, List<Music> musicList, OnItemClickListener listener) {
         this.context = context;
         this.musicList = musicList;
+        this.onItemClickListener = listener;
     }
 
-    public void setPlayingPosition(int playingPosition) {
-        this.playingPosition = playingPosition;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_music, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Music music = musicList.get(position);
+        holder.bind(music, position);
+    }
+
+    @Override
+    public int getItemCount() {
         return musicList.size();
     }
 
-    @Override
-    public Music getItem(int position) {
-        return musicList.get(position);
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_music, null);
-            viewHolder.number = convertView.findViewById(R.id.number);
-            viewHolder.title = convertView.findViewById(R.id.title);
-            viewHolder.artist = convertView.findViewById(R.id.artist);
-            viewHolder.duration = convertView.findViewById(R.id.duration);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        Music music = musicList.get(position);
-        viewHolder.number.setText(String.valueOf(position + 1));
-        viewHolder.title.setText(music.getTitle());
-        viewHolder.artist.setText(music.getArtist());
-        viewHolder.duration.setText(music.getTime());
-        if (playingPosition != -1) {
-            if (position == playingPosition) {
-                viewHolder.number.setTextColor(context.getColor(R.color.colorAccent));
-                viewHolder.title.setTextColor(context.getColor(R.color.colorAccent));
-                viewHolder.artist.setTextColor(context.getColor(R.color.colorAccent));
-                viewHolder.duration.setTextColor(context.getColor(R.color.colorAccent));
-            } else {
-                viewHolder.number.setTextColor(context.getColor(R.color.black));
-                viewHolder.title.setTextColor(context.getColor(R.color.black));
-                viewHolder.artist.setTextColor(context.getColor(R.color.black));
-                viewHolder.duration.setTextColor(context.getColor(R.color.black));
-            }
-        }
-
-        return convertView;
-    }
-
-    public static class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView number, title, artist, duration;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            number = itemView.findViewById(R.id.number);
+            title = itemView.findViewById(R.id.title);
+            artist = itemView.findViewById(R.id.artist);
+            duration = itemView.findViewById(R.id.duration);
+
+            itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(getAdapterPosition());
+                }
+            });
+        }
+
+        public void bind(Music music, int position) {
+            number.setText(String.valueOf(position + 1));
+            title.setText(music.getTitle());
+            artist.setText(music.getArtist());
+            duration.setText(music.getTime());
+        }
     }
 }
+

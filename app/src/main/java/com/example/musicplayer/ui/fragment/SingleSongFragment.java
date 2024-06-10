@@ -5,9 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
@@ -18,7 +19,7 @@ import com.example.musicplayer.ui.adapter.MusicAdapter;
 import java.util.List;
 
 public class SingleSongFragment extends Fragment {
-    private ListView listView;
+    private RecyclerView recyclerView;
     private MusicAdapter musicAdapter;
 
     private List<Music> musicList;
@@ -37,20 +38,20 @@ public class SingleSongFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_single_song, container, false);
-        listView = rootView.findViewById(R.id.lv);
+        recyclerView = rootView.findViewById(R.id.lv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext())); // 设置RecyclerView的布局管理器
         // 按照歌名的Unicode值排序
         if (!sorted) {
             musicList.sort((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle()));
         }
-        musicAdapter = new MusicAdapter(getContext(), musicList);
-        listView.setAdapter(musicAdapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        musicAdapter = new MusicAdapter(getContext(), musicList, position -> {
             if (!musicList.isEmpty()) {
                 App.getService().setMusicList(musicList);
                 App.getService().setPosition(position);
                 startActivity(new Intent(getContext(), PlayerActivity.class));
             }
         });
+        recyclerView.setAdapter(musicAdapter);
         return rootView;
     }
 }

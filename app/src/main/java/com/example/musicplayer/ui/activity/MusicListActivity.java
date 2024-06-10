@@ -18,7 +18,7 @@ import com.example.musicplayer.ui.adapter.ItemAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MusicListActivity extends AppCompatActivity implements ItemAdapter.OnItemLongClickListener {
+public class MusicListActivity extends AppCompatActivity {
     private MusicListRepository musicListRepository = new MusicListRepository(this);
     private Button addPlaylistButton;
     private RecyclerView recyclerView;
@@ -39,7 +39,7 @@ public class MusicListActivity extends AppCompatActivity implements ItemAdapter.
         addPlaylistButton.setOnClickListener(v -> showAddPlaylistDialog());
 
         recyclerView = findViewById(R.id.lv);
-        itemAdapter = new ItemAdapter(this, itemList, this);
+        itemAdapter = new ItemAdapter(this, itemList, this::showDeleteConfirmationDialog);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(itemAdapter);
     }
@@ -90,10 +90,5 @@ public class MusicListActivity extends AppCompatActivity implements ItemAdapter.
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-        showDeleteConfirmationDialog(position);
     }
 }

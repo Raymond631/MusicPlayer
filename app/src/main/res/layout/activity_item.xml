@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -2,10 +2,11 @@ package com.example.musicplayer.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.musicplayer.App;
 import com.example.musicplayer.R;
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class ItemActivity extends AppCompatActivity {
     private TextView title;
-    private ListView listView;
+    private RecyclerView recyclerView;
     private MusicAdapter musicAdapter;
     private Item item;
 
@@ -35,7 +36,9 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     private void init() {
-        listView = findViewById(R.id.lv);
+        recyclerView = findViewById(R.id.lv);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // 设置RecyclerView的布局管理器
+
         title = findViewById(R.id.title);
         title.setText(item.getName());
 
@@ -43,15 +46,13 @@ public class ItemActivity extends AppCompatActivity {
         List<Music> musicList = item.getMusicList();
         musicList.sort((o1, o2) -> o1.getTitle().compareToIgnoreCase(o2.getTitle()));
 
-        musicAdapter = new MusicAdapter(this, musicList);
-        listView.setAdapter(musicAdapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        musicAdapter = new MusicAdapter(this, musicList, position -> {
             if (!musicList.isEmpty()) {
-                // TODO: 播放列表也要能切换，待实现
                 App.getService().setMusicList(musicList);
                 App.getService().setPosition(position);
                 startActivity(new Intent(this, PlayerActivity.class));
             }
         });
+        recyclerView.setAdapter(musicAdapter);
     }
 }
