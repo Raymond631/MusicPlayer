@@ -107,14 +107,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         //播放
         play.setOnClickListener(v -> {
-            if (App.getService().isPlaying()) {
-                play.setImageResource(R.mipmap.play);
-            } else {
-                play.setImageResource(R.mipmap.pause);
+            MusicService service = App.getService();
+            if (service.getNowPlay() != null) {
+                service.playOrPause();
+                if (service.isPlaying()) {
+                    play.setImageResource(R.mipmap.play);
+                } else {
+                    play.setImageResource(R.mipmap.pause);
+                }
             }
-            App.getService().playOrPause();
         });
         //上一首
         pre.setOnClickListener(v -> App.getService().pre());

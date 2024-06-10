@@ -15,7 +15,7 @@ public class RecentMusicRepository extends MyDatabaseHelper {
     private static final String DATABASE_NAME = "musicplayer.db";
     private static final int DATABASE_VERSION = 1;
 
-    private static final int MAX_LINE = 100;
+    private static final int MAX_LINE = 50;
 
     public RecentMusicRepository(Context context) {
         super(context);

@@ -19,7 +19,9 @@ public class NotificationReceiver extends BroadcastReceiver {
             if (ACTION_PREVIOUS.equals(action)) {
                 musicService.pre();
             } else if (ACTION_PLAY_PAUSE.equals(action)) {
-                musicService.playOrPause();
+                if (musicService.getNowPlay() != null) {
+                    musicService.playOrPause();
+                }
             } else if (ACTION_NEXT.equals(action)) {
                 musicService.next();
             }
