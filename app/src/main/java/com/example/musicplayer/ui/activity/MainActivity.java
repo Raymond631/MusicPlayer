@@ -121,14 +121,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //上一首
-        pre.setOnClickListener(v -> App.getService().pre());
+        pre.setOnClickListener(v -> {
+            App.getService().pre();
+            refreshBar();
+        });
         //下一首
-        next.setOnClickListener(v -> App.getService().next());
+        next.setOnClickListener(v -> {
+            App.getService().next();
+            refreshBar();});
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        refreshBar();
+    }
+
+    private void refreshBar(){
         musicService = App.getService();
         if (musicService != null) {
             Music music = musicService.getNowPlay();

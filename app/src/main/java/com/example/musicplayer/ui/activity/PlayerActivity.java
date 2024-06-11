@@ -152,11 +152,13 @@ public class PlayerActivity extends AppCompatActivity {
         btn_love.setOnClickListener(v -> {
             Music music = App.getService().getNowPlay();
             if (favoriteMusicRepository.isFavorite(music)) {
+                // 取消收藏
                 favoriteMusicRepository.cancelFavoriteMusic(music);
-                btn_love.setImageResource(R.drawable.love_red);
-            } else {
-                favoriteMusicRepository.insertFavoriteMusic(music);
                 btn_love.setImageResource(R.drawable.love);
+            } else {
+                // 收藏
+                favoriteMusicRepository.insertFavoriteMusic(music);
+                btn_love.setImageResource(R.drawable.love_red);
             }
         });
         // 加入歌单
