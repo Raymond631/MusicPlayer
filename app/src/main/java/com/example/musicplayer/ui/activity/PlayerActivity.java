@@ -153,10 +153,10 @@ public class PlayerActivity extends AppCompatActivity {
             Music music = App.getService().getNowPlay();
             if (favoriteMusicRepository.isFavorite(music)) {
                 favoriteMusicRepository.cancelFavoriteMusic(music);
-                btn_love.setImageResource(R.drawable.love);
+                btn_love.setImageResource(R.drawable.love_red);
             } else {
                 favoriteMusicRepository.insertFavoriteMusic(music);
-                btn_love.setImageResource(R.drawable.love_red);
+                btn_love.setImageResource(R.drawable.love);
             }
         });
         // 加入歌单
@@ -187,9 +187,9 @@ public class PlayerActivity extends AppCompatActivity {
         end.setText(music.getTime());
 
         if (favoriteMusicRepository.isFavorite(music)) {
-            btn_love.setImageResource(R.drawable.love);
-        } else {
             btn_love.setImageResource(R.drawable.love_red);
+        } else {
+            btn_love.setImageResource(R.drawable.love);
         }
 
         //设置进度条总时长
